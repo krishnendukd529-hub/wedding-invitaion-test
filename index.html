@@ -224,7 +224,7 @@ document.getElementById('rsvp-form').addEventListener('submit', async e=>{
   e.preventDefault();
   const data = new FormData(e.target);
   try{
-    const url='https://script.google.com/macros/s/AKfycbw5KYZinF7Hl5UlfqkIAvToNpWOmpEYFSmKwilrgOcu_0dxcAuj7S7WkupD5wflM2GA/exec';
+    const url='https://docs.google.com/spreadsheets/d/1_gwotxxx8UwOyhor064wDSptezzuqoIP_DM6hazLSy8/edit?gid=0#gid=0';
     const res = await fetch(url,{method:'POST',body:data});
     if(res.ok){document.getElementById('msg').textContent='Thank you for your response! 💖'; e.target.reset();}
     else{document.getElementById('msg').textContent='Oops! Something went wrong.';}
