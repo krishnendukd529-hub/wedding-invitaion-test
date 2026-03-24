@@ -162,46 +162,29 @@ function startRocket(){
     else showNames();
   }
 
-  function showNames(){
-  let alpha=0;
-  function drawText(){
-    introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
+  function showNames() {
+    let alpha = 0;
+    function drawText() {
+        introCtx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+        introCtx.textAlign = 'center';
+        introCtx.fillStyle = `rgba(255,215,0,${alpha})`;
 
-    function showNames() {
-  let alpha = 0;
-  function drawText() {
-    introCtx.clearRect(0, 0, introCanvas.width, introCanvas.height);
+        let text = 'Krishnendu ❤️ Sucharita';
+        let fontSize = 72;
+        introCtx.font = fontSize + 'px Playfair Display';
+        while (introCtx.measureText(text).width > introCanvas.width * 0.9 && fontSize > 20) {
+            fontSize -= 2;
+            introCtx.font = fontSize + 'px Playfair Display';
+        }
 
-    introCtx.textAlign = 'center';
-    introCtx.fillStyle = `rgba(255,215,0,${alpha})`;
+        introCtx.fillText(text, introCanvas.width/2, introCanvas.height/2);
 
-    // Prepare lines
-    let lines = ['Krishnendu ❤️ Sucharita'];
-
-    // Start with large font
-    let fontSize = 72;
-    introCtx.font = fontSize + 'px Playfair Display';
-
-    // Shrink font if text is wider than canvas (90% width)
-    while (lines.some(line => introCtx.measureText(line).width > introCanvas.width * 0.9) && fontSize > 20) {
-      fontSize -= 2;
-      introCtx.font = fontSize + 'px Playfair Display';
+        alpha += 0.007;
+        if(alpha<1) requestAnimationFrame(drawText);
+        else setTimeout(transitionToFinal,3000);
     }
-
-    // Calculate total height for vertical centering
-    const lineHeight = fontSize * 1.2;
-    const totalHeight = lines.length * lineHeight;
-    lines.forEach((line, i) => {
-      let y = introCanvas.height / 2 - totalHeight / 2 + i * lineHeight;
-      introCtx.fillText(line, introCanvas.width / 2, y);
-    });
-
-    alpha += 0.007;
-    if (alpha < 1) requestAnimationFrame(drawText);
-    else setTimeout(transitionToFinal, 3000);
+    drawText();
   }
-  drawText();
-}
 
   function transitionToFinal(){
     introCanvas.style.transition='opacity 2s'; introCanvas.style.opacity=0;
