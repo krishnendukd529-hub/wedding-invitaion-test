@@ -1,211 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Krishnendu & Sucharita Wedding</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body, html {margin:0;padding:0;background:#000;color:#ffd700;font-family:'Merriweather', serif;overflow-x:hidden;}
-h1,h2,h3,h4,h5,h6,p {margin:0;padding:0;}
-a {color:#ffd700;text-decoration:none;}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Krishnendu & Sucharita Wedding Invitation</title>
 
-#welcome-overlay {
-  position:fixed;top:0;left:0;width:100%;height:100%;background:#000;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-  z-index:9999;opacity:1;transition:opacity 1s;
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+/* Reset & body */
+* { box-sizing: border-box; margin:0; padding:0; }
+body, html {
+  height:100%; font-family:'Merriweather', serif;
+  background: linear-gradient(180deg, #fffaf0 0%, #f5eee6 100%);
+  color:#3d2f21; overflow-x:hidden; position:relative;
 }
-#welcome-overlay.fadeout {opacity:0;pointer-events:none;}
-#welcome-overlay h1 {font-family:'Playfair Display', serif;font-size:4rem;color:#ffd700;animation:fadeInUp 2s ease forwards;}
-#welcome-overlay p {font-size:1.6rem;color:#f5d3b3;margin-top:10px;animation:fadeInUp 2s ease forwards;animation-delay:0.8s;}
+
+/* Welcome Overlay */
+#welcome-overlay {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: linear-gradient(135deg,#fffaf0,#f5eee6);
+  display:flex; justify-content:center; align-items:center;
+  flex-direction:column; text-align:center;
+  z-index:9999; padding:20px;
+  opacity:1; transition:opacity 1.5s ease;
+}
+#welcome-overlay.fadeout { opacity:0; pointer-events:none; }
+#welcome-overlay h1 {
+  font-family:'Great Vibes', cursive; font-size:4rem; color:#b88b5b;
+  animation:fadeInUp 2s ease forwards;
+}
+#welcome-overlay p {
+  font-size:1.6rem; font-weight:600; color:#a6845a;
+  margin-top:10px; animation:fadeInUp 2s ease forwards; animation-delay:0.8s;
+}
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
 
-#intro-canvas, #bg-canvas {position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:998;}
-#bg-canvas{display:none;opacity:0.3;}
+/* Floating petals & sparkles */
+.floating-element{position:fixed;pointer-events:none;z-index:0;animation:floatUp linear forwards;}
+@keyframes floatUp{0%{opacity:0;transform:translateY(20px) rotate(0deg);}20%{opacity:1;}100%{opacity:0;transform:translateY(-120vh) rotate(360deg);}}
+.petal{width:18px;height:10px;background:#f5d3b3;border-radius:50% 50% 50% 50% /70% 70% 30% 30%;opacity:0.7;}
+.sparkle{width:5px;height:5px;background:#ffd88f;border-radius:50%;opacity:0.6;}
 
-.container {max-width:750px;margin:80px auto;padding:0 20px;text-align:center;opacity:0;transform:translateY(30px);transition:opacity 2s, transform 2s;position:relative;z-index:2;}
-.container.show {opacity:1;transform:translateY(0);}
+/* Main container */
+.container{max-width:750px;margin:80px auto;padding:0 20px;text-align:center;position:relative;z-index:1;opacity:0;transform:translateY(20px);transition:opacity 1.5s ease,transform 1.5s ease;}
+.container.show{opacity:1;transform:translateY(0);}
 
-.wedding-title small {font-size:0.85rem;letter-spacing:2px;color:#ffd88f;text-transform:uppercase;}
-.wedding-title h1 {font-family:'Playfair Display', serif;font-size:3.8rem;color:#ffd700;margin:10px 0;}
-.wedding-title .and {font-family:'Merriweather', serif;font-weight:600;font-size:1.5rem;color:#f5d3b3;margin:15px 0;}
+/* Wedding Title */
+.wedding-title{margin-bottom:60px;}
+.wedding-title small{font-size:0.85rem;letter-spacing:2px;color:#9b886f;text-transform:uppercase;font-weight:500;}
+.wedding-title h1{font-family:'Great Vibes',cursive;font-size:3.8rem;color:#b88b5b;margin-top:10px;}
+.wedding-title .and{font-family:'Merriweather',serif;font-weight:600;font-size:1.5rem;color:#a6845a;margin:15px 0;letter-spacing:0.15em;}
 
-.date-location {border-top:1px solid #ffd700;border-bottom:1px solid #ffd700;padding:20px 0 40px;margin-bottom:80px;}
-.date-location h2 {font-weight:700;font-size:1.3rem;text-transform:uppercase;color:#ffd700;margin-bottom:8px;}
-.date-location p {font-size:1rem;color:#f5d3b3;margin:0 0 20px;}
-.date-location iframe {border-radius:15px;border:none;}
+/* Date & Venue */
+.date-location{border-top:1px solid #d4cfc4;border-bottom:1px solid #d4cfc4;padding:20px 0 40px;margin-bottom:80px;}
+.date-location h2{font-weight:700;font-size:1.3rem;letter-spacing:0.1em;text-transform:uppercase;color:#7c6c51;margin-bottom:8px;}
+.date-location p{font-size:1rem;color:#9e8f76;margin:0 0 20px;}
+.date-location iframe{border-radius:15px;border:none;}
 
-.response-section {max-width:500px;margin:0 auto 100px;background: rgba(255,215,0,0.1);padding:35px 25px;border-radius:20px;box-shadow:0 10px 30px rgba(255,215,0,0.3);}
-.response-section h2 {font-weight:700;font-size:1.8rem;color:#ffd700;margin-bottom:15px;}
-.response-section p {font-size:1rem;color:#f5d3b3;margin-bottom:20px; line-height:1.5;}
-form input, form select, form button {width:100%;padding:12px 15px;margin:12px 0;border-radius:10px;border:1px solid #ffd700;font-size:1rem;color:#000;}
-form input:focus, form select:focus {border-color:#ffd700;outline:none;}
-form button {background:#ffd700;color:black;font-weight:600;border:none;cursor:pointer;}
-form button:hover {background:#f5d3b3;}
-#msg {margin-top:12px;font-weight:600;color:#ffd700;}
+/* RSVP / Response Section */
+.response-section{
+  max-width:500px;margin:0 auto 100px;
+  background: rgba(255,255,255,0.7);
+  padding:35px 25px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.07);
+}
+.response-section h2{font-weight:700;font-size:1.8rem;color:#7c6c51;margin-bottom:15px;}
+.response-section p{font-size:1rem;color:#5d4b3e;margin-bottom:20px; line-height:1.5;}
+form input, form select, form button{width:100%;padding:12px 15px;margin:12px 0;border-radius:10px;border:1px solid #c9c2af;font-size:1rem;font-family:'Merriweather',serif;color:#3d2f21;transition:border-color 0.3s;}
+form input:focus, form select:focus{border-color:#a6845a;outline:none;}
+form button{background:#b88b5b;color:white;font-weight:600;border:none;cursor:pointer;transition:background-color 0.3s;}
+form button:hover{background:#a6845a;}
+#msg{margin-top:12px;font-weight:600;color:#3d2f21;}
 
-.petal {position:fixed;width:18px;height:10px;background:#f5d3b3;border-radius:50% 50% 50% 50% /70% 70% 30% 30%;opacity:0.7;pointer-events:none;z-index:1;animation:floatUp linear forwards;}
-@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0;}20%{opacity:1;}100%{transform:translateY(-120vh) rotate(360deg);opacity:0;}}
+/* Responsive */
+@media(max-width:480px){#welcome-overlay h1{font-size:3rem;} #welcome-overlay p{font-size:1.3rem;} .wedding-title h1{font-size:3rem;}}
 </style>
 </head>
 <body>
 
-<div id="welcome-overlay">
-  <h1>Welcome!</h1>
-  <p>You Are Cordially Invited to Our Wedding</p>
+<!-- Welcome Overlay -->
+<div id="welcome-overlay" role="dialog" aria-modal="true" aria-label="Wedding invitation welcome">
+  <h1>You Are Cordially Invited</h1>
+  <p>Krishnendu & Sucharita’s Wedding Celebration</p>
 </div>
 
-<canvas id="intro-canvas"></canvas>
-<canvas id="bg-canvas"></canvas>
-
+<!-- Main Content -->
 <div class="container" role="main" aria-hidden="true">
+
+  <!-- Wedding Title -->
   <section class="wedding-title">
     <small>The Wedding of</small>
-    <h1>Krishnendu</h1>
+    <h1>Krishnendu Das</h1>
     <div class="and">and</div>
-    <h1>Sucharita</h1>
+    <h1>Sucharita Das</h1>
   </section>
 
+  <!-- Date & Venue -->
   <section class="date-location">
     <h2>December 10th, 2026 - Pune</h2>
     <p>We would be delighted to have your presence and blessings on our special day</p>
-    <iframe src="https://maps.google.com/maps?q=Pune&output=embed" width="100%" height="250"></iframe>
+    <iframe src="https://maps.google.com/maps?q=Pune&output=embed" width="100%" height="250" allowfullscreen="" loading="lazy"></iframe>
   </section>
 
+  <!-- Polite RSVP / Response Form -->
   <section class="response-section">
     <h2>Kindly Let Us Know</h2>
     <p>We would be truly honored if you could join our celebration. Please let us know your availability:</p>
-
-    <form id="rsvp-form" action="https://script.google.com/macros/s/AKfycbzr1CVx-HqFBXi_omNo3zvfMgP26hDyNooSIDAl1kFXtFtd1WjNb1G3lPtRHXff0pVs/exec" method="POST" target="hidden_iframe">
-      <input type="text" name="name" placeholder="Your Name" required>
-      <input type="tel" name="phone" placeholder="Phone Number" required>
+    <form id="rsvp-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="tel" name="phone" placeholder="Phone Number" required />
       <select name="attendance" required>
         <option value="" disabled selected>Will you grace us with your presence?</option>
         <option value="Yes">Yes, happily attending 💖</option>
         <option value="No">Sending warm blessings 🙏</option>
       </select>
-      <button type="submit">Send Blessings 💖</button>
+      <button type="submit">Submit Response</button>
     </form>
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
-    <p id="msg"></p>
+    <p id="msg" role="alert" aria-live="polite"></p>
   </section>
 </div>
 
 <script>
-const welcomeOverlay=document.getElementById('welcome-overlay');
-const introCanvas=document.getElementById('intro-canvas');
-const introCtx=introCanvas.getContext('2d');
-const bgCanvas=document.getElementById('bg-canvas');
-const bgCtx=bgCanvas.getContext('2d');
-const main=document.querySelector('.container');
-
-function resizeCanvas(){introCanvas.width=bgCanvas.width=window.innerWidth; introCanvas.height=bgCanvas.height=window.innerHeight;}
-window.addEventListener('resize',resizeCanvas); resizeCanvas();
-
-window.addEventListener('load',()=>{
-  setTimeout(()=>{welcomeOverlay.classList.add('fadeout');},3000);
+// Overlay fade-out
+window.addEventListener('load', ()=>{
+  const overlay=document.getElementById('welcome-overlay');
+  const main=document.querySelector('.container');
   setTimeout(()=>{
-    welcomeOverlay.style.display='none';
-    introCanvas.style.display='block';
-    startRocket();
+    overlay.classList.add('fadeout');
+    setTimeout(()=>{overlay.style.display='none';main.setAttribute('aria-hidden','false');main.classList.add('show');},1500);
   },4500);
 });
 
-document.getElementById('rsvp-form').onsubmit=function(){
-  document.getElementById('msg').textContent="Thank you for your blessings! 💖";
+// Floating petals & sparkles
+function createFloatingElement(type){
+  const el=document.createElement('div');
+  el.classList.add('floating-element',type);
+  el.style.left=Math.random()*100+'vw';
+  el.style.animationDuration=10+Math.random()*10+'s';
+  el.style.animationDelay=Math.random()*10+'s';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),20000);
 }
+setInterval(()=>{createFloatingElement('petal');createFloatingElement('sparkle');},700);
 
-// ------- Rocket Animation -------
-function startRocket(){
-  let rocket={x:introCanvas.width/2, y:introCanvas.height, vy:-4, tail:[], size:14, color:'#ffd700'};
-  const particles=[]; const colors=['#ff4b2b','#ff416c','#ffe800','#00ffff','#ff7f50','#ff69b4','#7fff00','#ffb347','#8a2be2','#ff4500'];
-
-  function animateRocket(){
-    introCtx.fillStyle='rgba(0,0,0,0.05)'; introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
-
-    rocket.tail.push({x:rocket.x,y:rocket.y});
-    if(rocket.tail.length>100) rocket.tail.shift();
-    introCtx.beginPath(); rocket.tail.forEach((p,i)=>{ if(i==0) introCtx.moveTo(p.x,p.y); else introCtx.lineTo(p.x,p.y); });
-    introCtx.strokeStyle=rocket.color; introCtx.lineWidth=rocket.size/2; introCtx.stroke();
-
-    introCtx.beginPath(); introCtx.arc(rocket.x,rocket.y,rocket.size,0,Math.PI*2); introCtx.fillStyle=rocket.color; introCtx.fill();
-
-    rocket.y += rocket.vy;
-
-    if(rocket.y <= introCanvas.height/2 - 50) explode(); // slightly above middle
-    else requestAnimationFrame(animateRocket);
-  }
-
-  function explode(){
-    for(let i=0;i<400;i++){
-      const angle=Math.random()*2*Math.PI;
-      const speed=Math.random()*3+2;
-      particles.push({x:rocket.x, y:rocket.y, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed, alpha:1, color: colors[Math.floor(Math.random()*colors.length)]});
-    }
-    animateParticles();
-  }
-
-  function animateParticles(){
-    introCtx.fillStyle='rgba(0,0,0,0.05)'; introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
-    let done=true;
-    particles.forEach((p,i)=>{
-      if(p.alpha>0){done=false; p.x+=p.vx; p.y+=p.vy; p.alpha-=0.004; introCtx.globalAlpha=p.alpha;
-        introCtx.beginPath(); introCtx.arc(p.x,p.y,4,0,Math.PI*2); introCtx.fillStyle=p.color; introCtx.fill(); introCtx.globalAlpha=1;}
-    });
-    if(!done) requestAnimationFrame(animateParticles);
-    else showNames();
-  }
-
-  function showNames(){
-    let alpha=0;
-    function drawText(){
-      introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
-      introCtx.fillStyle=`rgba(255,215,0,${alpha})`;
-      introCtx.font='72px Playfair Display'; introCtx.textAlign='center';
-      introCtx.fillText('Krishnendu ❤️ Sucharita', introCanvas.width/2,introCanvas.height/2);
-      alpha+=0.007;
-      if(alpha<1) requestAnimationFrame(drawText);
-      else setTimeout(transitionToFinal,3000);
-    }
-    drawText();
-  }
-
-  function transitionToFinal(){
-    introCanvas.style.transition='opacity 2s'; introCanvas.style.opacity=0;
-    main.setAttribute('aria-hidden','false'); main.classList.add('show'); startPetals(); startBgFireworks(); bgCanvas.style.display='block';
-  }
-
-  animateRocket();
-}
-
-// ------- Petals -------
-function startPetals(){
-  function createPetal(){const el=document.createElement('div'); el.classList.add('petal'); el.style.left=Math.random()*100+'vw'; el.style.animationDuration=6+Math.random()*6+'s'; el.style.animationDelay=Math.random()*5+'s'; document.body.appendChild(el); setTimeout(()=>el.remove(),15000);}
-  setInterval(()=>createPetal(),200);
-}
-
-// ------- Background Fireworks -------
-function startBgFireworks(){
-  const fireworks=[], particles=[];
-  function random(min,max){return Math.random()*(max-min)+min;}
-  class Particle{constructor(x,y,color){this.x=x;this.y=y;this.color=color;this.vx=random(-3,3);this.vy=random(-3,3);this.alpha=1;this.decay=random(0.01,0.02);}
-    update(){this.x+=this.vx; this.y+=this.vy; this.alpha-=this.decay;}
-    draw(){bgCtx.globalAlpha=this.alpha; bgCtx.beginPath(); bgCtx.arc(this.x,this.y,2,0,Math.PI*2); bgCtx.fillStyle=this.color; bgCtx.fill(); bgCtx.globalAlpha=1;}
-  }
-  class Firework{constructor(x,y){this.x=x; this.y=y; this.targetY=random(y/2,y/3); this.color=`hsl(${Math.random()*360},100%,50%)`; this.exploded=false;}
-    update(){if(this.y>this.targetY)this.y-=2;else if(!this.exploded){this.explode(); this.exploded=true;}}
-    draw(){bgCtx.beginPath(); bgCtx.arc(this.x,this.y,2,0,Math.PI*2); bgCtx.fillStyle=this.color; bgCtx.fill();}
-    explode(){for(let i=0;i<20;i++) particles.push(new Particle(this.x,this.y,this.color));}
-  }
-  function animateBg(){
-    bgCtx.fillStyle='rgba(0,0,0,0.15)'; bgCtx.fillRect(0,0,bgCanvas.width,bgCanvas.height);
-    if(Math.random()<0.05) fireworks.push(new Firework(random(100,bgCanvas.width-100),bgCanvas.height));
-    fireworks.forEach((f,i)=>{f.update(); f.draw(); if(f.exploded) fireworks.splice(i,1);});
-    particles.forEach((p,i)=>{p.update(); p.draw(); if(p.alpha<=0) particles.splice(i,1);});
-    requestAnimationFrame(animateBg);
-  }
-  animateBg();
-}
+// RSVP submission (replace with your backend)
+const form=document.getElementById('rsvp-form');
+form.addEventListener('submit', async(e)=>{
+  e.preventDefault();
+  const data=new FormData(form);
+  try{
+    const url='YOUR_GOOGLE_SCRIPT_URL';
+    const res=await fetch(url,{method:'POST',body:data});
+    if(res.ok){document.getElementById('msg').textContent='Thank you for your response! 💖';form.reset();}
+    else{document.getElementById('msg').textContent='Oops! Something went wrong.';}
+  }catch{document.getElementById('msg').textContent='Network error. Please try again later.';}
+});
 </script>
+
 </body>
 </html>
