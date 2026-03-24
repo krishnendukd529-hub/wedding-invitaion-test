@@ -167,12 +167,18 @@ function startRocket(){
   function drawText(){
     introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
 
-    // Responsive font size based on screen width
-    let fontSize = introCanvas.width < 500 ? 36 : introCanvas.width < 800 ? 54 : 72;
+    // Responsive font size
+    let fontSize = introCanvas.width < 400 ? 28 : introCanvas.width < 600 ? 44 : 72;
     introCtx.font = fontSize + 'px Playfair Display';
     introCtx.textAlign = 'center';
     introCtx.fillStyle = `rgba(255,215,0,${alpha})`;
-    introCtx.fillText('Krishnendu ❤️ Sucharita', introCanvas.width/2,introCanvas.height/2);
+
+    // Split text if screen is small
+    const lines = introCanvas.width < 400 ? ['Krishnendu', '❤️', 'Sucharita'] : ['Krishnendu ❤️ Sucharita'];
+    const lineHeight = fontSize * 1.2;
+    lines.forEach((line,i)=>{
+      introCtx.fillText(line,introCanvas.width/2,introCanvas.height/2 + i*lineHeight - (lines.length-1)*lineHeight/2);
+    });
 
     alpha+=0.007;
     if(alpha<1) requestAnimationFrame(drawText);
