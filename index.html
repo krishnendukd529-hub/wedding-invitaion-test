@@ -6,18 +6,18 @@
 <title>Krishnendu & Sucharita Wedding</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body, html {margin:0; padding:0; overflow-x:hidden; font-family:'Merriweather', serif; background:#000; color:#ffd700;}
-#welcome-overlay {position:fixed; top:0; left:0; width:100%; height:100%; background:#000; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; z-index:9999; opacity:1; transition:opacity 1s;}
-#welcome-overlay.fadeout {opacity:0; pointer-events:none;}
-#welcome-overlay h1 {font-family:'Playfair Display', serif; font-size:4rem; color:#ffd700; animation:fadeInUp 2s ease forwards;}
+body, html {margin:0;padding:0;background:#000;color:#ffd700;font-family:'Merriweather', serif;overflow-x:hidden;}
+#welcome-overlay {position:fixed;top:0;left:0;width:100%;height:100%;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:9999;opacity:1;transition:opacity 1s;}
+#welcome-overlay.fadeout {opacity:0;pointer-events:none;}
+#welcome-overlay h1 {font-family:'Playfair Display', serif;font-size:4rem;color:#ffd700;animation:fadeInUp 2s ease forwards;}
 #welcome-overlay p {font-size:1.6rem;color:#f5d3b3;margin-top:10px;animation:fadeInUp 2s ease forwards;animation-delay:0.8s;}
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
 
-#intro-canvas, #bg-canvas {position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;}
-#bg-canvas{display:none; opacity:0.3;}
+#intro-canvas, #bg-canvas {position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+#bg-canvas{display:none;opacity:0.3;}
 
-.container {max-width:750px; margin:80px auto; padding:0 20px; text-align:center; opacity:0; transform:translateY(30px); transition:opacity 2s, transform 2s; position:relative; z-index:2;}
-.container.show {opacity:1; transform:translateY(0);}
+.container {max-width:750px;margin:80px auto;padding:0 20px;text-align:center;opacity:0;transform:translateY(30px);transition:opacity 2s, transform 2s;position:relative;z-index:2;}
+.container.show {opacity:1;transform:translateY(0);}
 .wedding-title small {font-size:0.85rem;letter-spacing:2px;color:#ffd88f;text-transform:uppercase;}
 .wedding-title h1 {font-family:'Playfair Display', serif;font-size:3.8rem;color:#ffd700;margin:10px 0;}
 .wedding-title .and {font-family:'Merriweather', serif;font-weight:600;font-size:1.5rem;color:#f5d3b3;margin:15px 0;}
@@ -65,7 +65,8 @@ form button:hover {background:#f5d3b3;}
   <section class="response-section">
     <h2>Kindly Let Us Know</h2>
     <p>We would be truly honored if you could join our celebration. Please let us know your availability:</p>
-    <form id="rsvp-form">
+
+    <form id="rsvp-form" action="https://script.google.com/macros/s/AKfycbzr1CVx-HqFBXi_omNo3zvfMgP26hDyNooSIDAl1kFXtFtd1WjNb1G3lPtRHXff0pVs/exec" method="POST" target="hidden_iframe">
       <input type="text" name="name" placeholder="Your Name" required>
       <input type="tel" name="phone" placeholder="Phone Number" required>
       <select name="attendance" required>
@@ -73,13 +74,15 @@ form button:hover {background:#f5d3b3;}
         <option value="Yes">Yes, happily attending 💖</option>
         <option value="No">Sending warm blessings 🙏</option>
       </select>
-      <button type="submit">Submit Response</button>
+      <button type="submit">Send Blessings 💖</button>
     </form>
-    <p id="msg" role="alert" aria-live="polite"></p>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+    <p id="msg" style="color:#ffd700;font-weight:600;"></p>
   </section>
 </div>
 
 <script>
+// Canvas resize
 const welcomeOverlay = document.getElementById('welcome-overlay');
 const introCanvas = document.getElementById('intro-canvas');
 const introCtx = introCanvas.getContext('2d');
@@ -87,10 +90,11 @@ const bgCanvas = document.getElementById('bg-canvas');
 const bgCtx = bgCanvas.getContext('2d');
 const main = document.querySelector('.container');
 
-function resizeCanvas(){introCanvas.width = bgCanvas.width = window.innerWidth; introCanvas.height = bgCanvas.height = window.innerHeight;}
+function resizeCanvas(){introCanvas.width=bgCanvas.width=window.innerWidth; introCanvas.height=bgCanvas.height=window.innerHeight;}
 window.addEventListener('resize',resizeCanvas);
 resizeCanvas();
 
+// Welcome overlay fade
 window.addEventListener('load',()=>{
   setTimeout(()=>{welcomeOverlay.classList.add('fadeout');},3000);
   setTimeout(()=>{
@@ -100,93 +104,61 @@ window.addEventListener('load',()=>{
   },4500);
 });
 
-// --- Grand cinematic firework ---
+// RSVP confirmation
+document.getElementById('rsvp-form').onsubmit=function(){
+  document.getElementById('msg').textContent="Thank you for your blessings! 💖";
+};
+
+// --- Fireworks and petals ---
+// This is your cinematic rocket + slow burst + final petals
 function startGrandFirework(){
   const particles=[];
-  let rocket={x:introCanvas.width/2, y:introCanvas.height, vy:-3.5, tail:[], size:8};
+  let rocket={x:introCanvas.width/2, y:introCanvas.height, vy:-3.5, tail:[], size:10};
   const colors=['#ff4b2b','#ff416c','#ffe800','#00ffff','#ff7f50','#ff69b4','#7fff00','#ffb347','#8a2be2','#ff4500'];
-
   function animateRocket(){
-    introCtx.fillStyle='rgba(0,0,0,0.1)';
-    introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
-
-    rocket.tail.push({x:rocket.x,y:rocket.y});
-    if(rocket.tail.length>60) rocket.tail.shift();
-    introCtx.beginPath();
-    rocket.tail.forEach(p=>introCtx.lineTo(p.x,p.y));
-    introCtx.strokeStyle = colors[Math.floor(Math.random()*colors.length)];
-    introCtx.lineWidth = rocket.size/2;
-    introCtx.stroke();
-
-    rocket.y += rocket.vy;
-    rocket.vy += 0.015;
-
-    introCtx.beginPath();
-    introCtx.arc(rocket.x, rocket.y, rocket.size, 0, Math.PI*2);
-    introCtx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
-    introCtx.fill();
-
-    if(rocket.vy>=0){explode();}
-    else requestAnimationFrame(animateRocket);
+    introCtx.fillStyle='rgba(0,0,0,0.1)'; introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
+    rocket.tail.push({x:rocket.x,y:rocket.y}); if(rocket.tail.length>60) rocket.tail.shift();
+    introCtx.beginPath(); rocket.tail.forEach(p=>introCtx.lineTo(p.x,p.y));
+    introCtx.strokeStyle = colors[Math.floor(Math.random()*colors.length)]; introCtx.lineWidth = rocket.size/2; introCtx.stroke();
+    rocket.y+=rocket.vy; rocket.vy+=0.015;
+    introCtx.beginPath(); introCtx.arc(rocket.x, rocket.y, rocket.size,0,Math.PI*2); introCtx.fillStyle=colors[Math.floor(Math.random()*colors.length)]; introCtx.fill();
+    if(rocket.vy>=0) explode(); else requestAnimationFrame(animateRocket);
   }
-
   function explode(){
     for(let i=0;i<300;i++){
       const angle=Math.random()*2*Math.PI;
-      const speed=Math.random()*3 + 1.5; // slower spread
+      const speed=Math.random()*3+1.5;
       particles.push({x:rocket.x,y:rocket.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,alpha:1,color:colors[Math.floor(Math.random()*colors.length)]});
     }
     animateParticles();
   }
-
   function animateParticles(){
-    introCtx.fillStyle='rgba(0,0,0,0.08)';
-    introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
-
+    introCtx.fillStyle='rgba(0,0,0,0.08)'; introCtx.fillRect(0,0,introCanvas.width,introCanvas.height);
     let done=true;
     particles.forEach(p=>{
       if(p.alpha>0){
-        done=false;
-        p.x+=p.vx; p.y+=p.vy; p.vy+=0.01;
-        p.alpha-=0.008; // linger longer
-        introCtx.globalAlpha=p.alpha;
-        introCtx.beginPath();
-        introCtx.arc(p.x,p.y,3,0,Math.PI*2);
-        introCtx.fillStyle=p.color;
-        introCtx.fill();
-        introCtx.globalAlpha=1;
+        done=false; p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.alpha-=0.008;
+        introCtx.globalAlpha=p.alpha; introCtx.beginPath(); introCtx.arc(p.x,p.y,3,0,Math.PI*2); introCtx.fillStyle=p.color; introCtx.fill(); introCtx.globalAlpha=1;
       }
     });
-
-    if(!done) requestAnimationFrame(animateParticles);
-    else showNames();
+    if(!done) requestAnimationFrame(animateParticles); else showNames();
   }
-
   function showNames(){
     let alpha=0;
     function drawText(){
       introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
-      introCtx.fillStyle=`rgba(255,215,0,${alpha})`;
-      introCtx.font='60px Playfair Display';
-      introCtx.textAlign='center';
+      introCtx.fillStyle=`rgba(255,215,0,${alpha})`; introCtx.font='60px Playfair Display'; introCtx.textAlign='center';
       introCtx.fillText('Krishnendu ❤️ Sucharita', introCanvas.width/2,introCanvas.height/2);
       alpha+=0.01;
-      if(alpha<1) requestAnimationFrame(drawText);
-      else setTimeout(transitionToFinal, 2500);
+      if(alpha<1) requestAnimationFrame(drawText); else setTimeout(transitionToFinal,2500);
     }
     drawText();
   }
-
   function transitionToFinal(){
-    introCanvas.style.transition='opacity 2s';
-    introCanvas.style.opacity=0;
-    main.setAttribute('aria-hidden','false');
-    main.classList.add('show');
-    startPetals();
-    startBgFireworks();
-    bgCanvas.style.display='block';
+    introCanvas.style.transition='opacity 2s'; introCanvas.style.opacity=0;
+    main.setAttribute('aria-hidden','false'); main.classList.add('show');
+    startPetals(); startBgFireworks(); bgCanvas.style.display='block';
   }
-
   animateRocket();
 }
 
@@ -218,29 +190,6 @@ function startBgFireworks(){
   }
   animateBg();
 }
-
-// RSVP
-<form id="rsvp-form" action="YOUR_WEB_APP_URL" method="POST" target="hidden_iframe">
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="tel" name="phone" placeholder="Phone Number" required>
-  <select name="attendance" required>
-    <option value="" disabled selected>Will you grace us with your presence?</option>
-    <option value="Yes">Yes, happily attending 💖</option>
-    <option value="No">Sending warm blessings 🙏</option>
-  </select>
-  <button type="submit">Send Blessings 💖</button>
-</form>
-
-<!-- Hidden iframe to submit without leaving the page -->
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-<p id="msg" style="color:#ffd700;font-weight:600;"></p>
-
-  <script>
-document.getElementById('rsvp-form').onsubmit = function() {
-  document.getElementById('msg').textContent = "Thank you for your blessings! 💖";
-};
-</script>
-});
 </script>
 </body>
 </html>
