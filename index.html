@@ -163,21 +163,23 @@ function startRocket(){
   }
 
   function showNames(){
-    let alpha=0;
-    function drawText(){
-      introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
-      introCtx.fillStyle=`rgba(255,215,0,${alpha})`;
-      // Responsive font size for mobile
-let fontSize = introCanvas.width < 500 ? 36 : introCanvas.width < 800 ? 54 : 72;
-introCtx.font = fontSize + 'px Playfair Display';
-introCtx.textAlign = 'center';
-introCtx.fillText('Krishnendu ❤️ Sucharita', introCanvas.width/2,introCanvas.height/2);
-      alpha+=0.007;
-      if(alpha<1) requestAnimationFrame(drawText);
-      else setTimeout(transitionToFinal,3000);
-    }
-    drawText();
+  let alpha=0;
+  function drawText(){
+    introCtx.clearRect(0,0,introCanvas.width,introCanvas.height);
+
+    // Responsive font size based on screen width
+    let fontSize = introCanvas.width < 500 ? 36 : introCanvas.width < 800 ? 54 : 72;
+    introCtx.font = fontSize + 'px Playfair Display';
+    introCtx.textAlign = 'center';
+    introCtx.fillStyle = `rgba(255,215,0,${alpha})`;
+    introCtx.fillText('Krishnendu ❤️ Sucharita', introCanvas.width/2,introCanvas.height/2);
+
+    alpha+=0.007;
+    if(alpha<1) requestAnimationFrame(drawText);
+    else setTimeout(transitionToFinal,3000);
   }
+  drawText();
+}
 
   function transitionToFinal(){
     introCanvas.style.transition='opacity 2s'; introCanvas.style.opacity=0;
