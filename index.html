@@ -220,15 +220,26 @@ function startBgFireworks(){
 }
 
 // RSVP
-document.getElementById('rsvp-form').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const data = new FormData(e.target);
-  try{
-    const url='https://docs.google.com/spreadsheets/d/1_gwotxxx8UwOyhor064wDSptezzuqoIP_DM6hazLSy8/edit?gid=0#gid=0';
-    const res = await fetch(url,{method:'POST',body:data});
-    if(res.ok){document.getElementById('msg').textContent='Thank you for your response! 💖'; e.target.reset();}
-    else{document.getElementById('msg').textContent='Oops! Something went wrong.';}
-  }catch{document.getElementById('msg').textContent='Network error. Please try again later.';}
+<form id="rsvp-form" action="YOUR_WEB_APP_URL" method="POST" target="hidden_iframe">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="tel" name="phone" placeholder="Phone Number" required>
+  <select name="attendance" required>
+    <option value="" disabled selected>Will you grace us with your presence?</option>
+    <option value="Yes">Yes, happily attending 💖</option>
+    <option value="No">Sending warm blessings 🙏</option>
+  </select>
+  <button type="submit">Send Blessings 💖</button>
+</form>
+
+<!-- Hidden iframe to submit without leaving the page -->
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+<p id="msg" style="color:#ffd700;font-weight:600;"></p>
+
+  <script>
+document.getElementById('rsvp-form').onsubmit = function() {
+  document.getElementById('msg').textContent = "Thank you for your blessings! 💖";
+};
+</script>
 });
 </script>
 </body>
